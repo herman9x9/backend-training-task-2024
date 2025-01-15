@@ -94,6 +94,22 @@ if (playerA === '剪刀' && playerB === '剪刀') {
   console.log('平手');
 }
 // 練習：使用 if, else if, else 判斷輸贏
+// 宣告玩家的出拳
+let playerA = '剪刀';
+let playerB = '石頭';
+
+// 判斷輸贏
+if (playerA === playerB) {
+    console.log('平手');                           //兩邊都出一樣的就是平手
+} else if (                                        //列出A有可能贏的狀況
+    (playerA === '剪刀' && playerB === '布') ||
+    (playerA === '石頭' && playerB === '剪刀') ||
+    (playerA === '布' && playerB === '石頭')
+) {
+    console.log('PlayerA 贏了');                  //A贏了
+} else {                                          //反之扣掉平手及A贏了的狀況，則是B贏了
+    console.log('PlayerB 贏了');
+}
 
 // ### 題目六：陣列、物件變數定義
 // 這是一間位於高雄市的健身房，名為「高雄市健身教練聯盟」，專注於提供高品質的健身指導服務。健身房內有多位專業教練，以下是兩位教練的詳細介紹：
@@ -114,10 +130,31 @@ if (playerA === '剪刀' && playerB === '剪刀') {
 - 背景介紹：李教練是一位瑜伽大師，擁有 10 年教學經驗，擅長幫助學員雕塑完美體態，適合希望改善姿態與柔軟度的學員。
 - 是否接收新學員：否
 */
-
-const gymCoach = {}; // 練習：使用物件變數定義兩位教練的資訊
+// 使用物件變數定義兩位教練的資訊
+// 使用物件變數定義兩位教練的資訊
+const gymCoach = [
+  {name:'王教練',
+    expertise:'力量訓練、減重課程',
+    course:{
+     singleCourses:'每次收費 2000 元，課程時長 60 分鐘，目前有空堂。',
+     Groupcourses:'每次收費 1500 元，課程時長 90 分鐘，目前無空堂。'
+    },
+    background:'王教練擁有 5 年教學經驗，專精於提升學員的肌力與減脂，適合希望快速達成體能目標的學員。',
+    acceptNewMember:true
+   },
+   {name:'李教練',
+    expertise:'瑜伽、體態雕塑',
+    course:{
+     singleCourses:'每次收費 1800 元，課程時長 50 分鐘，目前無空堂。',
+     Groupcourses:'每次收費 1200 元，課程時長 75 分鐘，目前有空堂。'
+    },
+    background:'李教練是一位瑜伽大師，擁有 10 年教學經驗，擅長幫助學員雕塑完美體態，適合希望改善姿態與柔軟度的學員。',
+    acceptNewMember:false
+   }
+]; 
 
 console.log(gymCoach);
+
 
 // ### 題目七：
 // 主管要求健身中心的兩位教練業績都需達到 50,000元
@@ -137,17 +174,18 @@ let performanceData = {
   ],
 };
 
-// 練習：第一位教練（可將下方程式碼註解移除，完成答題）
+// 練習：第一位教練（可將下方程式碼註解移除，完成答題）檢查第一位教練是否達標，如果沒有則增加業績
 
-// if (/* 判斷邏輯，使其為 true */) {
-//   // 請填寫第一位教練業績增長程式碼，使用 +=
-// }
+
+if (performanceData.coaches[0].performance < 50000) {      //判斷Ailce的業績是否小於50000
+  performanceData.coaches[0].performance += 8000;          //小於50000，所以要增加8000使其達標
+}
 
 // 練習：第二位教練（可將下方程式碼註解移除，完成答題）
 
-// if (/* 判斷邏輯，使其為 true */) {
-//   // 請填寫第二位教練業績增長程式碼，使用 +=
-// }
+if (performanceData.coaches[1].performance < 50000) {       //判斷Bob是否達到50000業績
+  performanceData.coaches[1].performance += 12000;          //Bob業績為38000，需要再+12000才能達標
+}
 
 console.log(performanceData);
 
@@ -158,18 +196,42 @@ console.log(performanceData);
   - 瑜伽每分鐘消耗 5 卡
   - 騎腳踏車每分鐘消耗 8 卡
 */
-const activities = {}; // 練習：使用 `物件包含物件` 的格式定義運動類型與每分鐘消耗卡路里
+
+const activities = {
+  treadmill: {
+    name: "跑步機",
+    caloriesPerMinute: 10
+  },
+  yoga: {
+    name: "瑜伽",
+    caloriesPerMinute: 5
+  },
+  cycling: {
+    name: "騎腳踏車",
+    caloriesPerMinute: 8
+  }
+}; // 練習：使用 `物件包含物件` 的格式定義運動類型與每分鐘消耗卡路里
+//在 activities物件中，treadmill、yoga 和 cycling 這些屬性的值，它們各自都是物件
 
 // ## 題目九
 // 情境：算小明今天的卡路里消耗
 // 承上題，根據運動類型與每分鐘消耗卡路里的變數設計，計算小明消耗的卡路里。
 // 小明今天騎了 10 分鐘的腳踏車去健身房，並先跑了 30 分鐘的跑步機熱身，最後再參加了 40 分鐘的瑜伽團課，最後再騎 10 分鐘腳踏車回家。
+// 設定每種運動的消耗卡路里資訊
 
-let calorieBurn = 0;
-
+// 小明的運動時間
+const treadmillTime = 30;  // 跑步機 30 分鐘
+const yogaTime = 40;  // 瑜伽 40 分鐘
+const cyclingTime = 20;  // 騎腳踏車 10+10=20 分鐘
+// 計算卡路里消耗
+let calorieBurn = 
+  (activities.treadmill.caloriesPerMinute * treadmillTime) +  // 跑步機消耗的卡路里30*10=300
+  (activities.yoga.caloriesPerMinute * yogaTime)+  // 瑜伽消耗的卡路里40*5=200
+  (activities.cycling.caloriesPerMinute * cyclingTime) ;  // 騎腳踏車消耗的卡路里20*8=160
+  
 // 練習：計算小明今日消耗的卡路里
-
-console.log(`小明今日一共消耗約 ${calorieBurn} 卡路里。`);
+// 顯示結果
+console.log(`小明今日一共消耗約 ${calorieBurn} 卡路里。`);    //輸出結果為:300+200+160=660，消耗660卡路里
 
 // ### 10. 運動量是否達標！
 // 情境：小明記錄了一週內每一天的運動情況，包含運動時長（分鐘）和平均心率（次數）。
@@ -194,15 +256,42 @@ const exerciseRecords = [
   { day: 'Saturday', duration: 60, heartRate: 145 },
 ];
 
-// 範例：週一
+// 週一
 if (exerciseRecords[0].duration >= 30 && exerciseRecords[0].heartRate >= 130) {
-  totalDuration += mondayDuration;
-  validDays += 1;
+  totalDuration += exerciseRecords[0].duration,
+  validDays += 1
+}
+// 週二
+if(exerciseRecords[1].duration >= 30 && exerciseRecords[1].heartRate >= 130){
+  totalDuration += exerciseRecords[1].duration,
+  validDays += 1
 }
 
-// 練習：週二、週三、週四、週五、週六
+// 週三
+if(exerciseRecords[2].duration >= 30 && exerciseRecords[2].heartRate >= 130){
+  totalDuration += exerciseRecords[2].duration,
+  validDays += 1
+}
 
+// 週四(沒運動)
+
+// 週五
+if(exerciseRecords[3].duration >= 30 && exerciseRecords[3].heartRate >= 130){
+  totalDuration += exerciseRecords[3].duration,
+  validDays += 1
+}
+
+//週六
+if(exerciseRecords[4].duration >= 30 && exerciseRecords[4].heartRate >= 130){
+  totalDuration += exerciseRecords[4].duration,
+  validDays += 1
+}
 // 練習：判斷是否符合 533 原則
 let isCompliant; // 條件：運動次數至少 5 次 || 運動時間累績達標 >= 150;
+if(validDays >= 5 || totalDuration >= 150){
+  isCompliant=true
+}else{
+  isCompliant=false
+};
 
-console.log(`小明的運動量是否達標: ${isCompliant}`); // 輸出: 小明的運動量是否達標
+console.log(`小明的運動量是否達標: ${isCompliant}`); // 輸出: 小明的運動量是否達標，未達標，所以會輸出false
